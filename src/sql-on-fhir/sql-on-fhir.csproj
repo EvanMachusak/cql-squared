@@ -1,0 +1,9 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
+  <PropertyGroup>
+    <ProjectGuid>{2E833930-DE28-4FAD-8687-CAE9E1141E29}</ProjectGuid>
+  </PropertyGroup>
+  <Target Name="CustomBuild" AfterTargets="Build">
+    <!-- Your custom build steps here -->
+    <Message Text="Hello from CustomBuild target!" />
+  </Target>
+</Project>

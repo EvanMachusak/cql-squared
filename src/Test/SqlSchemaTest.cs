@@ -1,24 +1,34 @@
-using CqlSquared.Model;
-using CqlSquared.Model.Schema;
 using CqlSquared.SqlSchema;
+using Hl7.Cql.Model;
+using System.Xml.Serialization;
 
 namespace CqlSquared.Test
 {
     [TestClass]
     public class SqlSchemaTest
     {
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            XmlSerializer serializer = new(typeof(ModelInfo));
+            var stream = typeof(SqlSchemaTest).Assembly.GetManifestResourceStream("fhir401")
+               ?? throw new ArgumentException($"Manifest resource stream fhir401 is not included in this assembly.");
+            Fhir401 = (ModelInfo)serializer.Deserialize(stream)!;
+        }
+
+        public static ModelInfo? Fhir401 { get; set; }
+
         [TestMethod]
         public void Translate()
         {
-            var model = Models.Fhir401();
-            var translator = new ModelToSchemaTranslator();
+            var translator = new ModelToViewDefinitionTranslator();
             var options = TranslatorOptions.Default();
-            options.FHIRVersions = new[] { TranslatorOptions.Version401 };
-            var classes = model.typeInfo
+            var schemas = translator.Translate(Fhir401!, model =>
+                model.typeInfo
                 .OfType<ClassInfo>()
                 .Where(ci => ci.name == "Patient")
-                .ToArray();
-            var schemas = translator.Translate(classes, options);
+                .ToArray(),
+            options);
 
         }
     }

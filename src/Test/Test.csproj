@@ -9,6 +9,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="fhir-modelinfo-4.0.1.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="fhir-modelinfo-4.0.1.xml">
+			<LogicalName>fhir401</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hl7.Cql.Model" Version="1.0.0-rc2" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
 		<PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
 		<PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
@@ -16,7 +27,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Model\Model.csproj" />
 	  <ProjectReference Include="..\SqlSchema\SqlSchema.csproj" />
 	</ItemGroup>
 

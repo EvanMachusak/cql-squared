@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -7,8 +7,23 @@
 		<RootNamespace>CqlSquared.SqlSchema</RootNamespace>
 	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Model\Model.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <None Remove="Resources\StructureDefinition-ViewDefinition.json" />
+	  <None Remove="Resources\StructureDefinition-ViewDefinition.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\StructureDefinition-ViewDefinition.json">
+		  <LogicalName>ViewDefinitionJson</LogicalName>
+	  </EmbeddedResource>
+		<EmbeddedResource Include="Resources\StructureDefinition-ViewDefinition.xml">
+			<LogicalName>ViewDefinitionXml</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Hl7.Cql.Model" Version="1.0.0-rc2" />
+	  <PackageReference Include="Hl7.Fhir.R4" Version="5.4.0" />
+	</ItemGroup>
 
 </Project>

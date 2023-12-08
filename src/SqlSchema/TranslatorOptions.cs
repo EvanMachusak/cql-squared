@@ -1,4 +1,5 @@
-﻿using CqlSquared.Model.Schema;
+﻿using Hl7.Cql.Model;
+using Hl7.Fhir.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,7 @@ namespace CqlSquared.SqlSchema
     {
         public Func<string?,string?,string?>? ViewNamingPattern { get; set; }
 
-        public Func<ClassInfo?,string?>? ResourceForClassInfo { get; set; }
-
-        public string[]? FHIRVersions { get; set; }
+        public Func<ClassInfo?,ResourceType?>? ResourceForClassInfo { get; set; }
 
         public static TranslatorOptions Default() => new()
         {
@@ -34,7 +33,7 @@ namespace CqlSquared.SqlSchema
             return null;
         }
 
-        public static string? DefaultResourceForClassInfo(ClassInfo? @class)
+        public static ResourceType? DefaultResourceForClassInfo(ClassInfo? @class)
         {
             const string uri = "http://hl7.org/fhir/StructureDefinition/";
             const int uriLength = 40;
@@ -43,13 +42,11 @@ namespace CqlSquared.SqlSchema
             else if (@class.identifier.StartsWith(uri))
             {
                 var resourceName = @class.identifier.Substring(uriLength);
-                return resourceName;
+                if (Enum.TryParse<ResourceType>(resourceName, out var resourceType))
+                    return resourceType;
             }
-            else return null;
+            return null;
         }
-
-
-        public const string Version401 = "4.0.1";
 
     }
 }
